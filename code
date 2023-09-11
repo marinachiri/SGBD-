@@ -1,0 +1,678 @@
+--Hotel
+
+create table h_hotel(
+    id_hotel number(10), PRIMARY KEY(id_hotel) ,
+    nume varchar(150) NOT NULL, 
+    locatie varchar(150) NOT NULL, 
+    nr_stele number(1) NOT NULL
+);
+
+insert into h_hotel 
+values (1,'Orient','Bucuresti',3);
+insert into h_hotel 
+values (2,'Vigo','Bucuresti',2);
+insert into h_hotel 
+values (3,'Luxury','Sinaia',5);
+insert into h_hotel 
+values (4,'Orient','Brasov',3);
+insert into h_hotel 
+values (5,'Ibis','Brasov',4);
+
+select * from h_hotel;
+
+
+
+--Client
+
+create table h_client(
+    CNP number(13) check( LENGTH(CNP) = 13), PRIMARY KEY(CNP),
+    nume varchar(150) NOT NULL, 
+    prenume varchar(150) NOT NULL, 
+    telefon varchar(150) NOT NULL, 
+    mail varchar(150) check (mail like '%_@__%.__%')
+);
+
+insert into h_client
+values(5000315487596, 'State', 'Alex', '0761458956', 'alexs@gmail.com');
+insert into h_client
+values(2890215784523, 'Georgescu', 'Anca', '0758962145', 'anca.g@gmail.com');
+insert into h_client
+values(1900810018700, 'Popa', 'Catalin', '0752145896', 'popacata@gmail.com');
+insert into h_client
+values(1680304019335, 'Alexe', 'Madalin', '0748956235', 'madalin_a@gmail.com');
+insert into h_client
+values(1770218278478, 'Andrei', 'Mihnea', '0768498569', 'mihnea@gmail.com');
+insert into h_client
+values(2940623167225, 'Costache', 'Iulia', '0768459758', 'alexs@gmail.com');
+insert into h_client
+values(6001005329218, 'Minca', 'Daria', '0761458956', 'alexs@gmail.com');
+insert into h_client
+values(2951015248596, 'Popa', 'Elena', '075849623', 'elena_p@gmail.com');
+
+select * from h_client;
+
+
+--Camera
+
+create table h_camera(
+    id_camera number(10),  PRIMARY KEY(id_camera), 
+    id_hotel number(10), FOREIGN KEY(id_hotel) REFERENCES h_hotel(id_hotel),
+    nr_camera number(3) NOT NULL,
+    detalii varchar(150), 
+    tip_camera varchar(150) NOT NULL,
+    pret number(4) NOT NULL
+);
+
+insert into h_camera
+values(1,5,150,'cu balcon','dubla',250);
+insert into h_camera
+values(2,5,100,'cu balcon','tripla',400);
+insert into h_camera
+values(3,5,97,'fara balcon','single',149);
+insert into h_camera
+values(4,4,10,'nefumatori','single',170);
+insert into h_camera
+values(5,4,113,'nefumatori','dubla',200);
+insert into h_camera
+values(6,5,145,'cu balcon','tripla',500);
+insert into h_camera
+values(7,2,100,'fara balcon','single',200);
+insert into h_camera
+values(8,2,7,'fumatori','dubla',300);
+insert into h_camera
+values(9,1,200,'fumatori','tripla',250);
+insert into h_camera
+values(10,1,167,'fumatori','dubla',280);
+
+
+select * from h_camera;
+
+
+
+--Rezervare
+
+create table h_rezervare(
+id_rezervare number(10), primary key(id_rezervare),
+id_client number(15), foreign key(id_client) references h_client(CNP),
+id_camera number(10), foreign key(id_camera) references h_camera(id_camera),
+data_checkin date NOT NULL,
+data_checkout date NOT NULL
+);
+
+select * from h_rezervare;
+
+insert into h_rezervare
+values(1,1900810018700,5, TO_DATE('15-12-2022','DD-MM-YYYY'),  TO_DATE('18-12-2022','DD-MM-YYYY'));
+insert into h_rezervare
+values(2,2940623167225,6, TO_DATE('19-04-2019','DD-MM-YYYY'),  TO_DATE('29-04-2019','DD-MM-YYYY'));
+insert into h_rezervare
+values(3,2890215784523,1, TO_DATE('16-02-2020','DD-MM-YYYY'),  TO_DATE('20-02-2020','DD-MM-YYYY'));
+insert into h_rezervare
+values(4,5000315487596,5, TO_DATE('24-11-2019','DD-MM-YYYY'),  TO_DATE('30-11-2019','DD-MM-YYYY'));
+insert into h_rezervare
+values(5,2890215784523,2, TO_DATE('17-05-2021','DD-MM-YYYY'),  TO_DATE('23-05-2021','DD-MM-YYYY'));
+insert into h_rezervare
+values(6,5000315487596,3, TO_DATE('09-09-2023','DD-MM-YYYY'),  TO_DATE('17-09-2023','DD-MM-YYYY'));
+insert into h_rezervare
+values(7,6001005329218,7, TO_DATE('27-12-2021','DD-MM-YYYY'),  TO_DATE('08-01-2022','DD-MM-YYYY'));
+insert into h_rezervare
+values(8,5000315487596,10, TO_DATE('24-11-2022','DD-MM-YYYY'),  TO_DATE('25-11-2022','DD-MM-YYYY'));
+insert into h_rezervare
+values(9,1900810018700,8, TO_DATE('01-06-2023','DD-MM-YYYY'),  TO_DATE('10-06-2023','DD-MM-YYYY'));
+insert into h_rezervare
+values(10,1770218278478,8, TO_DATE('22-08-2019','DD-MM-YYYY'),  TO_DATE('02-09-2019','DD-MM-YYYY'));
+insert into h_rezervare
+values(11,6001005329218,5, TO_DATE('03-01-2023','DD-MM-YYYY'),  TO_DATE('18-01-2023','DD-MM-YYYY'));
+insert into h_rezervare
+values(12,5000315487596,9, TO_DATE('26-07-2015','DD-MM-YYYY'),  TO_DATE('04-08-2015','DD-MM-YYYY'));
+insert into h_rezervare
+values(13,1900810018700,9, TO_DATE('15-08-2023','DD-MM-YYYY'),  TO_DATE('30-08-2023','DD-MM-YYYY'));
+insert into h_rezervare
+values(14,2890215784523,2, TO_DATE('05-10-2022','DD-MM-YYYY'),  TO_DATE('10-10-2022','DD-MM-YYYY'));
+insert into h_rezervare
+values(15,1770218278478,7, TO_DATE('24-05-2017','DD-MM-YYYY'),  TO_DATE('30-05-2017','DD-MM-YYYY'));
+insert into h_rezervare
+values(16,2951015248596,7, TO_DATE('27-06-2019','DD-MM-YYYY'),  TO_DATE('30-06-2019','DD-MM-YYYY'));
+
+
+--Factura
+
+create table h_factura(
+id_factura number(10), primary key(id_factura),
+id_produs number(10), foreign key(id_produs) references h_produs(id_produs),
+id_hotel number(10), foreign key(id_hotel) references h_hotel(id_hotel),
+data date  NOT NULL,
+cantitate number(5) NOT NULL
+);
+
+select * from h_factura;
+
+
+insert into h_factura
+values(1,3,5,TO_DATE('15-06-2023','DD-MM-YYYY'),30);
+insert into h_factura
+values(2,1,5,TO_DATE('28-09-2022','DD-MM-YYYY'),10);
+insert into h_factura
+values(3,4,4,TO_DATE('10-03-2022','DD-MM-YYYY'),100);
+insert into h_factura
+values(4,3,2,TO_DATE('19-05-2021','DD-MM-YYYY'),15);
+insert into h_factura
+values(5,6,3,TO_DATE('08-06-2022','DD-MM-YYYY'),26);
+insert into h_factura
+values(6,5,5,TO_DATE('01-02-2023','DD-MM-YYYY'),60);
+insert into h_factura
+values(7,1,4,TO_DATE('13-03-2023','DD-MM-YYYY'),5);
+insert into h_factura
+values(8,2,4,TO_DATE('24-04-2022','DD-MM-YYYY'),11);
+insert into h_factura
+values(9,2,1,TO_DATE('20-12-2020','DD-MM-YYYY'),25);
+insert into h_factura
+values(10,7,1,TO_DATE('21-10-2023','DD-MM-YYYY'),30);
+insert into h_factura
+values(11,4,1,TO_DATE('18-08-2022','DD-MM-YYYY'),45);
+insert into h_factura
+values(12,6,5,TO_DATE('05-11-2022','DD-MM-YYYY'),12);
+
+
+
+--Produs
+
+create table h_produs(
+id_produs number(10), primary key(id_produs),
+id_furnizor number(10), foreign key (id_furnizor) references h_furnizor(id_furnizor),
+pret number(7)  NOT NULL, 
+nume varchar(150) NOT NULL,
+descriere varchar(150));
+
+
+insert into h_produs
+values(1,1,89.99,'Absolut Vodka 1l','Bautura alcoolica 40%');
+insert into h_produs
+values(2,1,112,'Tranquebar Colonial 0.7l','');
+insert into h_produs
+values(3,4,23,'Macaron Fructe','Prajituri cu fructe');
+insert into h_produs
+values(4,4,5.36,'Croissant ciocolata-vanilie','');
+insert into h_produs
+values(5,6,5,'CocaCola','bautura carbogazoasa, 2L');
+insert into h_produs
+values(6,2,16.99,'Agent Solvent Profesional','Detergent');
+insert into h_produs
+values(7,3,23,'Ceafa porc','');
+
+select * from h_produs;
+
+
+
+--Furnizor
+
+create table h_furnizor(
+id_furnizor number(10), primary key(id_furnizor),
+nume varchar(150)  NOT NULL,
+locatie varchar(150),
+telefon varchar(10) NOT NULL check (length(telefon)=10));
+
+
+insert into h_furnizor
+values(1,'Wpg','Soseaua Borului nr. 19410605 Oradea, Bihor, Rom nia','0734800800');
+insert into h_furnizor
+values(2,'Sure-Step','Sector 2, Bucuresti','0723599833');
+insert into h_furnizor
+values(3,'PRODUCTIE MACELARIA KOVACS','Lunca Oltului 9a 520090 Sfantu Gheorghe','0756894785');
+insert into h_furnizor
+values(4,'SC SULTAN PRODEXIM SRL','Str. Imparatul Traian nr. 12 Medgidia, jud. Constanta','0241820633');
+insert into h_furnizor
+values(5,'La Fantana SRL','Bulevardul GARII OBOR, Nr. 8C, Bucuresti, Sectorul 2','0212007200');
+insert into h_furnizor
+values(6,'CocaCola Company','Bulevard Mircea Voda, nr. 30, etaj 6, camera 6.8, sector 3, Bucuresti','0219977248');
+
+select * from h_furnizor;
+
+
+-- Departament
+
+create table h_departament(
+id_departament number(10), primary key(id_departament),
+id_hotel number(10), foreign key(id_hotel) references h_hotel(id_hotel),
+nume varchar(150)  NOT NULL);
+
+
+insert into h_departament
+values(1,4,'receptie');
+insert into h_departament
+values(2,5,'receptie');
+insert into h_departament
+values(3,5,'bucatarie');
+insert into h_departament
+values(4,2,'curatenie');
+insert into h_departament
+values(5,1,'bucatarie');
+insert into h_departament
+values(6,1,'paza');
+
+select * from h_departament;
+
+
+-- Angajat
+
+create table h_angajat(
+id_angajat number(10), primary key(id_angajat),
+id_departament number(10), foreign key (id_departament) references h_departament(id_departament),
+nume varchar(150) NOT NULL,
+prenume varchar(150) NOT NULL,
+telefon varchar(10) NOT NULL check (length(telefon)=10),
+mail varchar(150) check (mail like '%_@__%.__%'),
+salariu number(7) NOT NULL,
+data_angajare date NOT NULL);
+
+
+insert into h_angajat
+values(1,2,'Nitu','Calin','0764895682','calin.nitu@yahoo.com',3550, TO_DATE('24-05-2019','DD-MM-YYYY'));
+insert into h_angajat
+values(2,2,'Postolache','Alexandra','0778345613','postolachealexandra@gmail.com',2500, TO_DATE('01-06-2022','DD-MM-YYYY'));
+insert into h_angajat
+values(3,3,'Dobre','Teodor','0783719728','teodor_dobre@gmail.com',12000, TO_DATE('01-01-2015','DD-MM-YYYY'));
+insert into h_angajat
+values(4,3,'Carol','Maria Catalina','0754531796','carol_catalina@gmail.com',5000, TO_DATE('01-04-2020','DD-MM-YYYY'));
+insert into h_angajat
+values(5,5,'Popescu','Stefan','0728659846','Popescu.stefan@gmail.com',6600, TO_DATE('03-05-2021','DD-MM-YYYY'));
+insert into h_angajat
+values(6,6,'Sapunaru','Ion','0763920175','nuare',3200, TO_DATE('10-12-2014','DD-MM-YYYY'));
+insert into h_angajat
+values(7,5,'Petrescu','Ioana','0754789623','ioana.p@gmail.com',8000, TO_DATE('01-09-2021','DD-MM-YYYY'));
+insert into h_angajat
+values(8,4,'Patrascu','George','0748956842','patrascu.george@gmail.com',2950, TO_DATE('15-03-2022','DD-MM-YYYY'));
+insert into h_angajat
+values(9,2,'Apostol','Mihaela','0735489965','apmihaela@gmail.com',5000, TO_DATE('28-08-2020','DD-MM-YYYY'));
+insert into h_angajat
+values(10,6,'Tanase','Petrica','0764895263','tansep@gmail.com',3300, TO_DATE('10-10-2021','DD-MM-YYYY'));
+
+select * from h_angajat;
+
+
+-- Serviciu
+
+create table h_serviciu(
+id_serviciu number(10), primary key (id_serviciu),
+nume varchar(100) NOT NULL,
+descriere varchar(100));
+
+
+insert into h_serviciu
+values(1,'mic dejun','');
+insert into h_serviciu
+values(2,'room service','');
+insert into h_serviciu
+values(3,'masaj','');
+insert into h_serviciu
+values(4,'demipensiune','');
+insert into h_serviciu
+values(5,'spa','');
+
+select * from h_serviciu;
+
+
+-- Pachet_servicii
+
+create table h_pachet_servicii(
+id_pachet number(10), primary key(id_pachet),
+id_serviciu number(10), foreign key (id_serviciu) references h_serviciu(id_serviciu),
+id_camera number(10), foreign key (id_camera) references h_camera(id_camera)
+);
+
+
+insert into h_pachet_servicii
+values(1,1,3);
+insert into h_pachet_servicii
+values(2,1,4);
+insert into h_pachet_servicii
+values(3,2,10);
+insert into h_pachet_servicii
+values(4,3,1);
+insert into h_pachet_servicii
+values(5,4,2);
+insert into h_pachet_servicii
+values(6,3,5);
+insert into h_pachet_servicii
+values(7,4,8);
+insert into h_pachet_servicii
+values(8,5,7);
+insert into h_pachet_servicii
+values(9,5,6);
+insert into h_pachet_servicii
+values(10,2,9);
+insert into h_pachet_servicii
+values(11,1,7);
+insert into h_pachet_servicii
+values(12,3,10);
+insert into h_pachet_servicii
+values(13,1,1);
+
+select * from h_pachet_servicii;
+
+
+
+select * from h_angajat;
+select * from h_camera;
+select * from h_client;
+select * from h_departament;
+select * from h_factura;
+select * from h_furnizor;
+select * from h_hotel;
+select * from h_pachet_servicii;
+select * from h_produs;
+select * from h_rezervare;
+select * from h_serviciu;
+
+
+
+-- 6
+-- Pentru departamentele care contin litera 'a' 
+-- si pentru acestea sa se afiseze angajatii cu vechime mai mare de 2 ani
+
+create or replace procedure exercitiul_6
+is 
+    TYPE t_imbricat IS TABLE OF varchar2(150); 
+    angajati t_imbricat := t_imbricat();
+    
+    TYPE vector IS VARRAY(100) OF NUMBER; 
+    departamente vector:= vector();
+
+begin
+    
+    select id_departament               
+    bulk collect into departamente
+    from h_departament
+    where UPPER(nume) LIKE '%A%';
+    
+    for d in departamente.first..departamente.last loop     
+    
+        select nume                               
+        bulk collect into angajati
+        from h_angajat
+        where id_departament = departamente(d)             
+        and MONTHS_BETWEEN(SYSDATE, data_angajare) > 24;   
+                                
+        DBMS_OUTPUT.PUT_LINE('Id departament: '||departamente(d));
+        IF angajati.COUNT = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Nu exista angajati care sa indeplineasca conditiile.');
+        ELSE
+            for a in angajati.first..angajati.last loop
+                DBMS_OUTPUT.PUT_LINE('Angajat: '||angajati(a));
+            end loop;
+        END IF;
+    
+        DBMS_OUTPUT.NEW_LINE();
+    end loop;
+    
+end exercitiul_6;
+/
+
+begin
+    exercitiul_6;
+end;
+/
+
+
+-- 7
+-- Pentru fiecare furnizor calculati suma incasata pe fiecare produs al lor, care au pretul mai mare de 15 lei
+select * from h_produs;
+select * from h_factura;
+
+
+create or replace procedure exercitiul_7 
+is  
+    cursor furnizori is
+        select id_furnizor id, nume
+        from h_furnizor;
+        
+    cursor produse(cod_furnizor  h_furnizor.id_furnizor%TYPE) is
+        select nume, pret, id_produs
+        from h_produs
+        where id_furnizor = cod_furnizor
+        and pret > 15;
+     
+    p_nume h_produs.nume%TYPE;
+    p_pret h_produs.pret%TYPE;
+    p_id h_produs.id_produs%TYPE;
+    p_cantitate int;
+    p_suma int;
+    
+begin
+    
+    for f in furnizori loop
+        DBMS_OUTPUT.PUT_LINE('Furnizor: ' || f.nume);
+        
+        OPEN produse(f.id); 
+        LOOP 
+            FETCH produse into p_nume, p_pret, p_id; 
+            EXIT WHEN produse%NOTFOUND;
+            
+            select sum(cantitate)
+            into p_cantitate
+            from h_factura
+            where id_produs = p_id
+            group by id_produs;
+            
+            p_suma := p_pret * p_cantitate;
+            
+            DBMS_OUTPUT.PUT_LINE('- produs: ' || p_nume || ', pret: ' || p_pret || ', cantitate: ' || p_cantitate || ', suma: ' || p_suma);
+        END LOOP;
+        close produse;
+        
+        DBMS_OUTPUT.NEW_LINE();
+    end loop;
+    
+end exercitiul_7;
+/
+
+begin 
+    exercitiul_7;
+end;
+/
+
+
+-- 8 
+-- pentru numarul unei camere, afisati ce servicii are
+
+select * from h_serviciu;
+select * from h_pachet_servicii;
+select * from h_camera;
+
+create or replace function exercitiul_8 (camera h_camera.nr_camera%type)
+return varchar2
+as 
+    rez varchar2(255);
+    contor number;
+    exceptie_1 exception;
+    exceptie_2 exception;
+begin
+
+    DBMS_OUTPUT.PUT_LINE('Camera: '|| camera);
+    
+    select count(nr_camera)
+    into contor
+    from h_camera
+    where nr_camera = camera;
+    
+    if  contor = 0 
+        then raise exceptie_1;
+    elsif contor>1 
+        then raise exceptie_2;
+    end if;
+
+    select LISTAGG(s.nume, ', ') WITHIN GROUP (ORDER BY s.nume)  
+    into rez
+    from h_pachet_servicii ps
+    inner join h_serviciu s
+        on s.id_serviciu = ps.id_serviciu
+    inner join h_camera c
+        on c.id_camera = ps.id_camera
+    where c.nr_camera = camera;
+    
+    return rez;
+
+exception
+    WHEN exceptie_1 THEN
+        rez := 'Nu exista camera';
+        return rez;
+      
+    WHEN exceptie_2 THEN
+        rez := 'Exista mai multe camere cu acest numar.';
+        return rez;
+        
+end exercitiul_8;
+/
+
+begin
+    DBMS_OUTPUT.PUT_LINE(exercitiul_8('7'));
+    DBMS_OUTPUT.NEW_LINE();
+    DBMS_OUTPUT.PUT_LINE(exercitiul_8('167'));
+    DBMS_OUTPUT.NEW_LINE();
+    DBMS_OUTPUT.PUT_LINE(exercitiul_8('100'));
+    DBMS_OUTPUT.NEW_LINE();
+    DBMS_OUTPUT.PUT_LINE(exercitiul_8('5'));
+end;
+/
+
+
+-- 9
+-- Aflati pentru numele unui client dat cea mai recenta camera rezervata, in ce interval si ce pachet de servicii avea.
+
+select * from h_client;
+select * from h_rezervare;
+
+CREATE OR REPLACE PROCEDURE exercitiul_9 (param_nume h_client.nume%TYPE) 
+IS 
+    nume_client varchar(150);
+    prenume_client varchar(150);
+    interval varchar(150);
+    camera number;
+    servicii varchar(150);
+    too_many_rows exception;
+    no_data exception;
+    c number;
+    
+BEGIN 
+
+    select count(nume)
+    into c
+    from h_client
+    where upper(nume) = upper(param_nume);
+    
+    if  c = 0 
+        then raise no_data;
+    elsif c>1 
+        then raise too_many_rows;
+    end if;
+    
+    select cl.nume, cl.prenume, concat(concat(rez.data_checkin, ' - '),rez.data_checkout), rez.id_camera,  LISTAGG(s.nume, ', ') WITHIN GROUP (ORDER BY s.nume)
+    into nume_client, prenume_client, interval, camera, servicii
+    from h_rezervare rez
+    inner join h_camera c
+        on c.id_camera = rez.id_camera
+    inner join h_client cl
+        on cl.CNP = rez.id_client
+    inner join h_pachet_servicii ps
+        on c.id_camera = ps.id_camera
+    inner join h_serviciu s
+        on s.id_serviciu = ps.id_serviciu 
+    where cl.nume = param_nume
+    and rez.data_checkin = (SELECT MAX(rez.data_checkin) -- cea mai recenta rezervare
+                            FROM h_rezervare rez
+                            inner join h_client cl
+                            on cl.CNP = rez.id_client
+                            where cl.nume = param_nume)
+    group by cl.nume, cl.prenume, concat(concat(rez.data_checkin, ' - '),rez.data_checkout), rez.id_camera;
+
+    dbms_output.put_line('Client: '||nume_client||' '||prenume_client||', interval: '|| interval||', camera: '||camera||', servicii: '||servicii);
+
+EXCEPTION 
+    WHEN no_data
+        THEN dbms_output.put_line('Nu exista clienti nu numele acesta.'); 
+    WHEN too_many_rows 
+        THEN dbms_output.put_line('Exista mai multi clienti cu numele acesta.'); 
+    WHEN OTHERS 
+        THEN dbms_output.put_line('Clientul nu a efectuat rezervari!'); 
+END exercitiul_9; 
+/ 
+
+
+BEGIN 
+    exercitiul_9('Alexe'); 
+    exercitiul_9('State');     
+    exercitiul_9('Popa');
+    exercitiul_9('Ion'); 
+END;
+/
+
+
+-- 10
+-- scrieti unn trigger care nu permite stergerea hotelurilor
+
+CREATE OR REPLACE TRIGGER exercitiul_10 
+    BEFORE DELETE ON h_hotel
+DECLARE
+    ex EXCEPTION;
+BEGIN
+    RAISE ex;
+EXCEPTION
+    WHEN ex THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Nu este permisa stergerea din acest tabel.');
+END;
+
+delete
+from h_hotel
+where id_hotel = 3;
+
+
+
+-- 11
+-- scrieti un trigger care nu permite cresterea pretului unui produs
+
+CREATE OR REPLACE TRIGGER exercitiul_11
+    BEFORE UPDATE OF pret ON h_produs 
+    FOR EACH ROW 
+BEGIN 
+    IF (:NEW.pret > :OLD.pret) 
+        THEN RAISE_APPLICATION_ERROR(-20002,'Pretul nu poate fi majorat!');
+    END IF; 
+END; 
+/ 
+
+UPDATE h_produs
+SET pret = 200
+where id_produs = 1; 
+
+
+-- 12
+-- scrieti un trigger care populeaza tabela de audit
+
+CREATE TABLE t_audit
+    (DB_name VARCHAR2(50),
+    user_name VARCHAR2(30),
+    eveniment VARCHAR2(20),
+    tip_obiect VARCHAR2(30),
+    nume_obiect VARCHAR2(30),
+    data_efectuare TIMESTAMP(3));
+
+
+CREATE OR REPLACE TRIGGER exercitiul_12
+    AFTER CREATE OR DROP OR ALTER ON SCHEMA
+BEGIN
+    INSERT INTO t_audit
+    VALUES (SYS.DATABASE_NAME, SYS.LOGIN_USER,
+            SYS.SYSEVENT, SYS.DICTIONARY_OBJ_TYPE,
+            SYS.DICTIONARY_OBJ_NAME, SYSTIMESTAMP(3));
+END;
+/
+
+SELECT * FROM t_audit;
+
+
+
+
+
+
+
+
